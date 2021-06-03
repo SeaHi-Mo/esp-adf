@@ -288,9 +288,49 @@ esp_err_t periph_callback(audio_event_iface_msg_t *event, void *context)
                 } else if ((int)event->data == get_input_mode_id() &&
                            ((event->cmd == PERIPH_BUTTON_RELEASE) || (event->cmd == PERIPH_BUTTON_LONG_RELEASE))) {
                     ESP_LOGI(TAG, "PERIPH_NOTIFY_KEY_REC_QUIT");
+                } 
+           #ifdef CONFIG_ESP32_A1S_AUDIO_KIT_V2_2_BOARD    
+                else if ((int)event->data == get_input_set_id() && event->cmd == PERIPH_BUTTON_PRESSED){
+                     if (wifi_setting_flag == false) {
+                        wifi_service_setting_start(wifi_serv, 0);
+                        wifi_setting_flag = true;
+                        display_service_set_pattern(disp_serv, DISPLAY_PATTERN_WIFI_SETTING, 0);
+                        ESP_LOGI(TAG, "AUDIO_USER_KEY_WIFI_SET, WiFi setting started.");
+                    } else {
+                        ESP_LOGW(TAG, "AUDIO_USER_KEY_WIFI_SET, WiFi setting will be stopped.");
+                        wifi_service_setting_stop(wifi_serv, 0);
+                        wifi_setting_flag = false;
+                        display_service_set_pattern(disp_serv, DISPLAY_PATTERN_TURN_OFF, 0);
+                    }
+
+                } else if ((int)event->data == get_input_play_id() && event->cmd == PERIPH_BUTTON_PRESSED){
+
+                } else if ((int)event->data == get_input_volup_id() && event->cmd == PERIPH_BUTTON_PRESSED){
+                        int player_volume = 0;
+                        esp_audio_vol_get(player, &player_volume);
+                        player_volume += 10;
+                        if (player_volume > 100) {
+                            player_volume = 100;
+                        }
+                        esp_audio_vol_set(player, player_volume);
+                        ESP_LOGI(TAG, "AUDIO_USER_KEY_VOL_UP [%d]", player_volume);
+                } else if ((int)event->data == get_input_voldown_id() && event->cmd == PERIPH_BUTTON_PRESSED){
+                        int player_volume = 0;
+                        esp_audio_vol_get(player, &player_volume);
+                        player_volume -= 10;
+                        if (player_volume < 0) {
+                            player_volume = 0;
+                        }
+                        esp_audio_vol_set(player, player_volume);
+                        ESP_LOGI(TAG, "AUDIO_USER_KEY_VOL_DOWN [%d]", player_volume);
                 }
+                #endif
                 break;
             }
+           
+    #ifdef CONFIG_ESP32_A1S_AUDIO_KIT_V2_2_BOARD
+
+    #else 
         case PERIPH_ID_TOUCH: {
                 if ((int)event->data == TOUCH_PAD_NUM4 && event->cmd == PERIPH_BUTTON_PRESSED) {
 
@@ -340,6 +380,7 @@ esp_err_t periph_callback(audio_event_iface_msg_t *event, void *context)
                 }
                 break;
             }
+        #endif
         case PERIPH_ID_ADC_BTN:
             if (((int)event->data == get_input_volup_id()) && (event->cmd == PERIPH_ADC_BUTTON_RELEASE)) {
                 int player_volume = 0;

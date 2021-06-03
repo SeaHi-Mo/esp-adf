@@ -70,4 +70,15 @@ set(COMPONENT_SRCS
 )
 endif()
 
+if (CONFIG_ESP32_A1S_AUDIO_KIT_V2_2_BOARD)
+message(STATUS "Current board name is " CONFIG_ESP32_A1S_AUDIO_KIT_V2_2_BOARD)
+list(APPEND COMPONENT_ADD_INCLUDEDIRS ./ESP32_1AS_Audio_Kit_v2_2)
+set(COMPONENT_SRCS
+./ESP32_1AS_Audio_Kit_v2_2/board.c
+./ESP32_1AS_Audio_Kit_v2_2/board_pins_config.c
+)
+endif()
+
+
+
 register_component()
