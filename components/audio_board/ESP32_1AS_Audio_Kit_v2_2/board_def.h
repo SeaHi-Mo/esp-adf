@@ -30,7 +30,7 @@
 #define SDCARD_INTR_GPIO          GPIO_NUM_34
 
 #define BUTTON_REC_ID             GPIO_NUM_36   //KEY1
-#define BUTTON_MODE_ID            GPIO_NUM_19
+#define BUTTON_MODE_ID            GPIO_NUM_19   //KEY3
 
 #define BUTTON_SET_ID             GPIO_NUM_13   //KEY2
 #define BUTTON_PLAY_ID            GPIO_NUM_23   //KEY4
@@ -38,7 +38,7 @@
 #define BUTTON_VOLDOWN_ID         GPIO_NUM_5    //KEY6
 
 #define AUXIN_DETECT_GPIO         GPIO_NUM_12
-#define HEADPHONE_DETECT          GPIO_NUM_39   //KEY3
+#define HEADPHONE_DETECT          GPIO_NUM_39   
 #define PA_ENABLE_GPIO            GPIO_NUM_21
 
 #define GREEN_LED_GPIO            GPIO_NUM_22
